@@ -1,0 +1,17 @@
+// Running Up Stairs
+// Ron Prasad : 100 points
+
+
+query = int(raw_input())
+
+for t in range(query):
+    stepval1 = 1;
+    stepval2 = 1;
+    n = int(raw_input())
+    
+    for i in range(n - 1):
+        totalstep = stepval1 + stepval2
+        stepval1 = stepval2
+        stepval2 = totalstep
+        
+    print (stepval2)

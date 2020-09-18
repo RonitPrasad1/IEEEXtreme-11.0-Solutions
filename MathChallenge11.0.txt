@@ -1,0 +1,88 @@
+// Math Challenge (C++)
+// Ron Prasad : 20 Points
+
+#ifdef DEBUG 
+#define D(x)(x) 
+#else 
+#define D(x) do{}while(0)
+#undef _GLIBCXX_DEBUG
+#include <bits/stdc++.h>
+#define timesaver ios_base::sync_with_stdio(false); cin.tie(0)
+#define LL long long
+#define MOD 1000000007
+using namespace std;
+#endif
+ 
+LL Factorial(LL n) { //Fact of any number calculator:
+    LL fact = 1 % MOD;
+    for(LL i = 1; i <= n; ++i) {
+        fact = (fact % MOD *i % MOD) % MOD;
+    }
+    return fact % MOD;
+}
+
+LL Exponent(LL a, LL b) { //Raising a to the combinational value of (b,c):
+    if(b == 0)
+    return 1;
+    if(b == 1) 
+    return a;
+    
+    LL temp = 0;
+    
+    LL value = Exponent(a, b/2);
+    if(b % 2 == 0) {
+      temp = (value % MOD * value % MOD) % MOD;
+      return temp % MOD;
+    /* } else if(a == 1 && b >= 100) {
+      temp = 1 % MOD;
+      return temp % MOD; */
+    } else {
+      temp = (value % MOD * (value * a % MOD) % MOD) % MOD;
+      return temp % MOD;
+    }
+}
+
+int main() {
+ mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+    int t, a, b, c;
+    cin >> t;
+    for(LL i = 0; i < t; ++i) {
+        LL COMB = 0;
+        cin >> a >> b >> c;
+        
+        //Combinations Formula: (b|c) b!/c!(b-c)!
+        COMB =  Factorial(b) / (Factorial(c)* Factorial(b-c)) % (MOD - 1) % MOD; 
+
+    cout << Exponent(a, COMB) % MOD << endl; 
+  }
+ //debug("Total Time:%.4Lf\n",(ld)(clock()-z)/CLOCKS_PER_SEC);
+}
+
+-------------------------------------------------------------------------------------------
+
+//Python2 Solution (50 points)
+
+MOD = 1000000007
+
+def fact(n):
+    factorial = 1
+    for i in range( 1, n + 1):
+        factorial = ( factorial % MOD * i % MOD) % MOD
+    return factorial
+
+def power( a, b ):
+    if b == 0:
+        return 1
+    if b == 1:
+        return a
+    val = power( a, b / 2 )
+    if( b % 2 == 0 ):
+        return ( val * val % MOD ) % MOD
+    else:
+        return ( (val * val * a % MOD) ) % MOD
+
+t = int(raw_input())
+for tt in range( 1, t + 1 ):
+    a, b, c = map(int, raw_input().split() )
+    binom = fact(b) / (fact(c)*fact(b-c) % MOD) % (MOD);
+    print ( power( a, binom ) )
